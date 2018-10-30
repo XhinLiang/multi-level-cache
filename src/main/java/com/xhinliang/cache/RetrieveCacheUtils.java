@@ -21,7 +21,7 @@ public class RetrieveCacheUtils {
             }
         }
 
-        // retrieve
+        // write back
         for (int i = fetchCacheIndex - 1; i >= 0; i--) {
             caches[i].set(key, finalResult);
         }
