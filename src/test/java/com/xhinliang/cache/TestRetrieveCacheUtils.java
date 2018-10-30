@@ -28,6 +28,7 @@ public class TestRetrieveCacheUtils {
 
         ICache<Long, Post> localCache = new PostLocalCache();
 
+        RetrieveCache<Long, Post> retrieveCache = new RetrieveCache<>(localCache, memcachedCache, postDaoCacheWrapper);
         // CHECKSTYLE:OFF
         GlobalLogger.log("init value...");
         for (long i = 0; i < 100L; i++) {
@@ -37,8 +38,7 @@ public class TestRetrieveCacheUtils {
         GlobalLogger.log("first");
         Watcher firstWatcher = new Watcher();
         for (long i = 1; i < 100L; i++) {
-            Post post = RetrieveCacheUtils.retrieveGetById(i, localCache, memcachedCache,
-                    postDaoCacheWrapper);
+            Post post = retrieveCache.get(i);
             if (post == null) {
                 throw new RuntimeException("post is null!");
             }
@@ -48,8 +48,7 @@ public class TestRetrieveCacheUtils {
         GlobalLogger.log("second");
         Watcher secondWatcher = new Watcher();
         for (long i = 1; i < 100L; i++) {
-            Post post = RetrieveCacheUtils.retrieveGetById(i, localCache, memcachedCache,
-                    postDaoCacheWrapper);
+            Post post = retrieveCache.get(i);
             if (post == null) {
                 throw new RuntimeException("post is null!");
             }
@@ -61,14 +60,12 @@ public class TestRetrieveCacheUtils {
         GlobalLogger.log("third");
         Watcher thirdWatcher = new Watcher();
         for (long i = 1; i < 100L; i++) {
-            Post post = RetrieveCacheUtils.retrieveGetById(i, localCache, memcachedCache,
-                    postDaoCacheWrapper);
+            Post post = retrieveCache.get(i);
             if (post == null) {
                 throw new RuntimeException("post is null!");
             }
         }
         GlobalLogger.log("third cost: {}", thirdWatcher.stop());
-
         // CHECKSTYLE:ON
     }
 }
