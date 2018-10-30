@@ -22,9 +22,4 @@ public class Watcher {
             throw new RuntimeException("watcher stop twice time!");
         }
     }
-
-    @Override
-    public String toString() {
-        return stop() + "";
-    }
 }
